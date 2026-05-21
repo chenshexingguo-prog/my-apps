@@ -2,7 +2,7 @@
  * Service Worker - 离线缓存
  */
 
-const CACHE_NAME = 'pwa-demo-v2-1';
+const CACHE_NAME = 'pwa-demo-v2-2';
 const urlsToCache = [
     './',
     './index.html',

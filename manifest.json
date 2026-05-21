@@ -1,0 +1,20 @@
+{
+  "name": "我的应用平台",
+  "short_name": "应用平台",
+  "description": "个人软件和游戏中心",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%230f172a' width='512' height='512' rx='64'/><text x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='280'>🚀</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "utilities"],
+  "lang": "zh-CN"
+}

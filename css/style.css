@@ -42,12 +42,21 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
     height: 100%;
     width: 100%;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-overflow-scrolling: none;
+    overscroll-behavior: none;
+    touch-action: none;
 }
 
 body {
@@ -56,7 +65,10 @@ body {
     color: var(--text-primary);
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    -webkit-tap-highlight-color: transparent;
+    /* 禁止弹性滚动 */
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 /* ==================== 布局容器 ==================== */
@@ -67,6 +79,12 @@ body {
     height: 100dvh;
     padding-top: var(--safe-top);
     padding-bottom: var(--safe-bottom);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .view {
@@ -74,6 +92,7 @@ body {
     flex-direction: column;
     flex: 1;
     overflow: hidden;
+    position: relative;
 }
 
 .view.active {
@@ -273,7 +292,13 @@ body {
 .content {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     padding: var(--spacing-lg);
+    /* 让内容区域可以滚动但不影响整体 */
+    position: relative;
+    z-index: 1;
 }
 
 /* ==================== 应用网格 ==================== */
@@ -338,6 +363,8 @@ body {
     z-index: 100;
     display: none;
     flex-direction: column;
+    overflow: hidden;
+    overscroll-behavior: contain;
 }
 
 .game-container.active {
@@ -693,4 +720,192 @@ body {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
+}
+/* ==================== 扫雷游戏 ==================== */
+.minesweeper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.mine-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+}
+
+.mine-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mine-icon {
+    font-size: 20px;
+}
+
+.mine-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding: 20px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+}
+
+.setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-row label {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.setting-row input[type="range"] {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    background: var(--surface-light);
+    border-radius: 4px;
+    outline: none;
+}
+
+.setting-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--primary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.start-btn {
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.mine-grid-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.mine-grid {
+    display: grid;
+    gap: 2px;
+    padding: 8px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.mine-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-light);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.1s;
+}
+
+.mine-cell:active {
+    transform: scale(0.95);
+}
+
+.mine-cell.revealed {
+    background: var(--background);
+    cursor: default;
+}
+
+.mine-cell.flagged {
+    background: #f59e0b20;
+}
+
+.mine-cell.bomb {
+    background: #ef444420;
+}
+
+.mine-cell.number-1 { color: #3b82f6; }
+.mine-cell.number-2 { color: #10b981; }
+.mine-cell.number-3 { color: #ef4444; }
+.mine-cell.number-4 { color: #8b5cf6; }
+.mine-cell.number-5 { color: #f59e0b; }
+.mine-cell.number-6 { color: #06b6d4; }
+.mine-cell.number-7 { color: #f8fafc; }
+.mine-cell.number-8 { color: #94a3b8; }
+
+.mine-controls {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.new-game-btn,
+.settings-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--surface);
+    color: var(--text-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.game-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 200;
+}
+
+.game-overlay h2 {
+    font-size: 28px;
+    color: var(--text-primary);
+}
+
+.game-overlay p {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+#overlayBtn {
+    padding: 14px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 8px;
 }

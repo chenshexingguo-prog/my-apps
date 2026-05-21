@@ -24,6 +24,13 @@ class App {
                 icon: '🔢',
                 description: '1-100猜数字',
                 class: GameGuess
+            },
+            {
+                id: 'minesweeper',
+                name: '扫雷',
+                icon: '💣',
+                description: '自定义难度',
+                class: GameMinesweeper
             }
         ];
         
